@@ -43,7 +43,9 @@ A modern status page application built with React and Node.js, allowing organiza
 
 1. Clone the repository
 git clone https://github.com/chitralekhayaduvanshi/Modern_Status.git
+```bash
 cd Modern_Status
+```
 
 2. Install frontend dependencies
 ```bash
@@ -139,9 +141,9 @@ This application uses Auth0 for authentication. To set up Auth0:
 
 ### Frontend Scripts
 ```bash
-npm run dev # Start development server
-npm run build # Build for production
-npm run preview # Preview production build
+npm run dev         # Start development server
+npm run build       # Build for production
+npm run preview     # Preview production build
 ```
 ```bash
 ### Backend Scripts
