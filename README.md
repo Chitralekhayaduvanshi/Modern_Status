@@ -46,39 +46,47 @@ git clone https://github.com/chitralekhayaduvanshi/Modern_Status.git
 cd Modern_Status
 
 2. Install frontend dependencies
+```bash
 cd frontend
 npm install
+```
 
 3. Install backend dependencies
+```bash
 cd ../backend
 npm install
+```
 
 4. Configure environment variables
 
 Frontend (.env):
+```bash
 VITE_AUTH0_DOMAIN=your-auth0-domain
 VITE_AUTH0_CLIENT_ID=your-auth0-client-id
 VITE_AUTH0_AUDIENCE=your-auth0-api-identifier
 VITE_API_URL=http://localhost:3000
-
+```
 
 Backend (.env):
+```bash
 PORT=3000
 MONGODB_URI=your-mongodb-connection-string
 AUTH0_DOMAIN=your-auth0-domain
 AUTH0_AUDIENCE=your-auth0-api-identifier
-
+```
 
 ## 🚀 Running the Application
 
 1. Start the backend server
+```bash
 cd backend
 npm run dev
-
+```
 2. Start the frontend development server
+```bash
 cd frontend
 npm run dev
-
+```
 
 The application will be available at `http://localhost:5173`
 
@@ -130,15 +138,17 @@ This application uses Auth0 for authentication. To set up Auth0:
 ## 🛠️ Development
 
 ### Frontend Scripts
+```bash
 npm run dev # Start development server
 npm run build # Build for production
 npm run preview # Preview production build
-
+```
+```bash
 ### Backend Scripts
 npm run dev      # Start development server
 npm run build    # Build TypeScript
 npm start        # Start production server
-
+```
 
 ## 🤝 Contributing
 
