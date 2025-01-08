@@ -15,6 +15,8 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "composite": true,
+    "declaration": true,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",
 
