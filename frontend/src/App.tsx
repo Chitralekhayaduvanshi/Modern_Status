@@ -1,17 +1,11 @@
-import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { setAuthTokenGetter } from './services/api';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
-
-  useEffect(() => {
-    setAuthTokenGetter(() => getAccessTokenSilently());
-  }, [getAccessTokenSilently]);
+  const { isLoading } = useAuth0();
 
   if (isLoading) {
     return <div>Loading...</div>;
