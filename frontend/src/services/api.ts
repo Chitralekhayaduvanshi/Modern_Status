@@ -7,12 +7,19 @@ const api = axios.create({
   },
 });
 
+let getTokenFn: (() => Promise<string | null>) | null = null;
+
+export const setAuthTokenGetter = (fn: () => Promise<string | null>) => {
+  getTokenFn = fn;
+};
+
 // Add auth interceptor
 api.interceptors.request.use(async (config) => {
-  // Get the access token from Auth0
-  const token = await getAccessToken(); // You'll need to implement this
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (getTokenFn) {
+    const token = await getTokenFn();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 });
