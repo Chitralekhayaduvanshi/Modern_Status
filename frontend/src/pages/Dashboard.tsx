@@ -1,8 +1,11 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { useQuery } from '@tanstack/react-query';
 import { getStatuses } from '@/services/api';
 import { Status } from '@/types/status';
+import { Button } from '@/components/ui/button';
 
 export default function Dashboard() {
+  const { user, logout } = useAuth0();
   const { data: statuses, isLoading, error } = useQuery<Status[]>({
     queryKey: ['statuses'],
     queryFn: getStatuses,
@@ -37,62 +40,59 @@ export default function Dashboard() {
     );
   }
 
-  if (!statuses?.length) {
-    return (
-      <div className="min-h-screen bg-background">
-        <nav className="border-b bg-card">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <h1 className="text-xl font-bold text-foreground">Status Dashboard</h1>
-          </div>
-        </nav>
-
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="card p-6 text-center">
-            <p className="text-muted-foreground">No status updates available</p>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-xl font-bold text-foreground">Status Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">{user?.email}</span>
+            <Button 
+              variant="outline" 
+              onClick={() => logout({ returnTo: window.location.origin })}
+            >
+              Logout
+            </Button>
+          </div>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid gap-4">
-          {statuses.map((status) => (
-            <div key={status._id} className="card">
-              <div className="card-header">
-                <h2 className="text-lg font-semibold">{status.serviceName}</h2>
-                <div className="flex items-center gap-2 mt-2">
-                  <span
-                    className={`badge ${
-                      status.status === 'operational'
-                        ? 'bg-green-100 text-green-800'
-                        : status.status === 'degraded'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {status.status}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    Last updated: {new Date(status.lastUpdated).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-              {status.description && (
-                <div className="card-content">
-                  <p className="text-muted-foreground">{status.description}</p>
-                </div>
-              )}
+          {!statuses?.length ? (
+            <div className="card p-6 text-center">
+              <p className="text-muted-foreground">No status updates available</p>
             </div>
-          ))}
+          ) : (
+            statuses.map((status) => (
+              <div key={status._id} className="card">
+                <div className="card-header">
+                  <h2 className="text-lg font-semibold">{status.serviceName}</h2>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span
+                      className={`badge ${
+                        status.status === 'operational'
+                          ? 'bg-green-100 text-green-800'
+                          : status.status === 'degraded'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {status.status}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      Last updated: {new Date(status.lastUpdated).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+                {status.description && (
+                  <div className="card-content">
+                    <p className="text-muted-foreground">{status.description}</p>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </main>
     </div>
