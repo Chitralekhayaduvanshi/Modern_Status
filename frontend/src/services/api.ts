@@ -7,21 +7,24 @@ const api = axios.create({
   },
 });
 
-let getTokenFn: (() => Promise<string | null>) | null = null;
-
-export const setAuthTokenGetter = (fn: () => Promise<string | null>) => {
-  getTokenFn = fn;
+export const getStatuses = async () => {
+  const response = await api.get('/api/status');
+  return response.data;
 };
 
-// Add auth interceptor
-api.interceptors.request.use(async (config) => {
-  if (getTokenFn) {
-    const token = await getTokenFn();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
-  return config;
-});
+export const updateStatus = async (id: string, data: any) => {
+  const response = await api.put(`/api/status/${id}`, data);
+  return response.data;
+};
+
+export const createStatus = async (data: any) => {
+  const response = await api.post('/api/status', data);
+  return response.data;
+};
+
+export const deleteStatus = async (id: string) => {
+  const response = await api.delete(`/api/status/${id}`);
+  return response.data;
+};
 
 export default api; 
